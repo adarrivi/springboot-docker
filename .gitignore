@@ -1,0 +1,40 @@
+# Java class files
+*.class
+
+# generated files
+bin/
+build/classes
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+target/
+.DS_Store
+build
+tmp
+
+# Eclipse project files
+.settings
+.bpmn/
+.externalToolBuilders/
+.classpath
+.project
+.springBeans
+
+# Backup files
+backup/
+/bin
+.xml
+
+# Intellij idea project files
+.idea/
+*.iml
+
+*.xml.versionsBackup
+
+# Docker temp files
+helper/docker/*.war
+# Deployment files
+event-sourcing-ws/deploy/docker.zip
+event-sourcing-ws/deploy/*/docker.zip
+event-sourcing-ws/deploy/*/event-sourcing-ws.jar
