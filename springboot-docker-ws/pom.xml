@@ -65,6 +65,68 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.jolokia</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.13.6</version>
+                <configuration>
+                    <useColor>true</useColor>
+                    <images>
+                        <!-- A single's image configuration -->
+                        <image>
+                            <name>jolokia/docker-demo:0.1</name>
+                            <build>
+                                <from>anapsix/docker-oracle-java8</from>
+                                <maintainer>adarrivi</maintainer>
+                                <ports>
+                                    <port>8080</port>
+                                </ports>
+                                <volumes>
+                                    <volume>/tmp</volume>
+                                </volumes>
+                                <runCmds>
+                                    <cmd>bash -c 'touch /app.jar'</cmd>
+                                </runCmds>
+                                <entryPoint>
+                                    <!-- exec form for ENTRYPOINT -->
+                                    <exec>
+                                        <arg>java</arg>
+                                        <arg>-Djava.security.egd=file:/dev/./urandom</arg>
+                                        <arg>-jar</arg>
+                                        <arg>/app.jar</arg>
+                                    </exec>
+                                </entryPoint>
+                            </build>
+                        </image>
+
+                    </images>
+                </configuration>
+
+                <!-- Connect start/stop to pre- and
+                     post-integration-test phase, respectively if you want to start
+                     your docker containers during integration tests -->
+                <executions>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <!-- "build" should be used to create the images with the
+                                 artefacts -->
+                            <goal>build</goal>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
             <!-- Needed to generate the event-sourcing-ws docker file -->
             <!-- Use, from parent module, like: mvn  -pl ../springboot-docker-ws docker:build -->
             <plugin>
