@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <start-class>io.adarrivi.springboot.ws.WsApplication</start-class>
+        <start-class>io.adarrivi.springboot.ws.WebServiceApplication</start-class>
         <!--This will skip the webservice when deploying the modules to artifactory with mvn deploy from the parent -->
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
@@ -61,6 +61,10 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- Needed to generate the event-sourcing-ws docker file -->
             <!-- Use, from parent module, like: mvn  -pl ../springboot-docker-ws docker:build -->
             <plugin>
