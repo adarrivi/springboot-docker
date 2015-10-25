@@ -1,0 +1,9 @@
+packaging:
+  add:
+    - target/springboot-docker-ws.jar
+ports:
+  - 8080
+healthChecks:
+  pings:
+    - url: http://${container.ip}:8080/hello-world
+      timeout: 30000

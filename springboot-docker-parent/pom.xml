@@ -128,8 +128,21 @@
                 <configuration>
                     <includes>
                         <include>**/integration/**</include>
+                        <include>**/functional/**</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <example.app.ip>${docker.app.ipAddress}</example.app.ip>
+                    </systemPropertyVariables>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.alexecollins.docker</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>2.11.3</version>
             </plugin>
         </plugins>
     </build>
