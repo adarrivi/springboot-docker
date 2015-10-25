@@ -60,6 +60,26 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Needed to generate the event-sourcing-ws docker file -->
+            <!-- Use, from parent module, like: mvn  -pl ../springboot-docker-ws docker:build -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${docker.maven.plugin.version}</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>${project.basedir}/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
