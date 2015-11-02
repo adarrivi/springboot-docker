@@ -29,6 +29,14 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.netflix.nfgraph</groupId>
+            <artifactId>netflix-graph</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
 
         <!-- Test dependencies -->
         <!-- Use lo4j implementation for logging -->

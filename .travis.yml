@@ -1,0 +1,9 @@
+sudo: required
+language: java
+jdk:
+  - oraclejdk8
+
+before_install: 
+ - cd springboot-docker-parent
+notifications:
+  email: false

@@ -1,4 +1,4 @@
-FROM java:8
+FROM andreptb/oracle-java:8
 MAINTAINER adarrivi
 
 VOLUME /tmp
