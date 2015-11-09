@@ -1,4 +1,4 @@
-package io.adarrivi.springboot.model.domain;
+package io.adarrivi.springboot.model.config;
 
 import com.google.common.collect.ImmutableList;
 import com.netflix.nfgraph.build.NFBuildGraph;
@@ -6,6 +6,8 @@ import com.netflix.nfgraph.spec.NFGraphSpec;
 import com.netflix.nfgraph.spec.NFNodeSpec;
 import com.netflix.nfgraph.spec.NFPropertySpec;
 import com.netflix.nfgraph.util.OrdinalMap;
+import io.adarrivi.springboot.model.domain.FantasyCharacter;
+import io.adarrivi.springboot.model.domain.Relationship;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
