@@ -79,8 +79,43 @@
                 <version>${hamcrest-all.version}</version>
             </dependency>
         </dependencies>
-
     </dependencyManagement>
+
+    <!-- ** Testing executions ** -->
+    <!-- For unit tests: mvn test -->
+    <!-- For integration tests: mvn -Pintegration-tests verify -->
+    <!-- For functional tests: mvn -pl ../springboot-docker-ws -Pfunctional-tests verify -->
+    <!-- Run everything: mvn test -->
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven.failsafe.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <includes>
+                                <include>**/integration/**</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -120,59 +155,9 @@
                 <configuration>
                     <excludes>
                         <exclude>**/integration/**</exclude>
-                        <exclude>**/stress/**</exclude>
                         <exclude>**/functional/**</exclude>
                     </excludes>
                 </configuration>
-            </plugin>
-            <!-- Only run integration tests for goal verify -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <includes>
-                        <include>**/integration/**</include>
-                        <include>**/functional/**</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <!--<example.app.ip>${docker.app.ipAddress}</example.app.ip>-->
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>start-docker</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>helloworld.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-docker</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>bye.sh</executable>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
