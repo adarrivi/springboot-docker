@@ -12,17 +12,17 @@ The idea is to have an easy and fast way of run three types of tests while devel
 Using `maven-surefire-plugin` we can exclude the folders for integration and functional tests when invoking `mvn test`:
 
 ```
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/integration/**</exclude>
-                        <exclude>**/functional/**</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>${maven.surefire.version}</version>
+    <configuration>
+        <excludes>
+            <exclude>**/integration/**</exclude>
+            <exclude>**/functional/**</exclude>
+        </excludes>
+    </configuration>
+</plugin>
 ```
 This should be quite fast to run
 
@@ -33,3 +33,34 @@ Run them with `mvn -Pintegration-tests verify` (this will also run the unit test
 ##Functional tests
 Now we would like to build the web service into an auto-executable fat jar, put it in a docker container, build it and run it. And once that is done, run some tests agains that container.
 Again, `maven-failsafe-plugin` along with `exec-maven-plugin` will help us here with the phase `pre-integration-test` for buid the docker image and run it, and `post-integration-test` for stop and remove it.
+
+```
+<plugin>
+    <groupId>org.codehaus.mojo</groupId>
+    <artifactId>exec-maven-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>start-docker</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>${project.basedir}/docker/startDocker.sh</executable>
+            </configuration>
+        </execution>
+        <execution>
+            <id>stop-docker</id>
+            <phase>post-integration-test</phase>
+            <goals>
+                <goal>exec</goal>
+            </goals>
+            <configuration>
+                <executable>docker/stopDocker.sh</executable>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+To run them, execute `mvn -pl ../springboot-docker-ws -Pfunctional-tests verify`
